@@ -2,7 +2,7 @@ import json
 import time
 import login
 import os
-
+# 支持自定义配置
 def start(add=False):
     if len(os.listdir('./user/')) == 0 or add:
         print("请输入手机号")
@@ -21,7 +21,6 @@ def start(add=False):
                 print('检查你的验证码是否输入正确')
         else:
             print('可能出错了')
-        
     else:
         print('你当前可以选用的账号如下（输入数字选择）-1新增')
         userlist = os.listdir('./user/')
