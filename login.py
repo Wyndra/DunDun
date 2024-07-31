@@ -34,30 +34,31 @@ def sendCode(phone):
 
 
 def verifyCode(phone, code):
+    print(phone, code)
     # 成功即刻返回token
     url = "https://userapi.qiekj.com/user/reg"
 
-    payload = f"channel=ios_app&phone={phone}&verify={code}"
+    payload=f'channel=ios_app&phone={phone}&verify={code}'
     headers = {
+        'Accept': '*/*',
+        'Content-Length': '45',
         'Host': 'userapi.qiekj.com',
         'channel': 'ios_app',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-        'Cookie': 'SERVERID=f2b5f835c45a6ca30a9d3ff318bef498|1687271750|1687271654; '
-                  'acw_tc=781bad3416872716540207737e51e812c531a8ba6c0c4f4ce9c92f7c6340ef; '
-                  'SERVERID=f2b5f835c45a6ca30a9d3ff318bef498|1687272550|1687271654',
-        'Connection': 'keep-alive',
-        'Accept': '*/*',
-        'Version': '1.28.2',
-        'User-Agent': 'QEUser/1.28.2 (com.qiekj.QEUser; build:2; iOS 16.5.0) Alamofire/5.6.4',
-        'Accept-Language': 'zh-Hant-HK;q=1.0, zh-Hans-CN;q=0.9, en-CN;q=0.8, en-GB;q=0.7, ja-CN;q=0.6, '
-                           'yue-Hant-CN;q=0.5',
         'Accept-Encoding': 'br;q=1.0, gzip;q=0.9, deflate;q=0.8',
-        'Content-Length': '45'
+        'Connection': 'keep-alive',
+        'Accept-Language': 'zh-Hant-HK;q=1.0, zh-Hans-CN;q=0.9, en-CN;q=0.8, en-GB;q=0.7, ja-CN;q=0.6, yue-Hant-CN;q=0.5',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        'Cookie': 'SERVERID=6fda55701a8e85b8ca777fbce1ef92f1|1705755386|1705755295; acw_tc=76b20fea17057539561948022e63a0fa0dce826b58ffaa6dc69c881ae98218; SERVERID=6fda55701a8e85b8ca777fbce1ef92f1|1705758344|1705758344',
+        'Version': '1.40.1'
     }
-
     response = requests.request("POST", url, headers=headers, data=payload)
-    result = json.loads(response.text)
-    state = json.loads(response.text)['msg']
+    try:
+        result = json.loads(response.text)
+        print(result)
+    except json.JSONDecodeError as e:
+        print(response.text)
+        return [False, 'error']
+    state = result['msg']
     if state == '成功':
         tk = result['data']['token']
         return [True, tk]

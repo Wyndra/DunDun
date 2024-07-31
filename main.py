@@ -3,7 +3,6 @@ import time
 import login
 import os
 
-
 def start(add=False):
     if len(os.listdir('./user/')) == 0 or add:
         print("请输入手机号")
@@ -11,7 +10,7 @@ def start(add=False):
         if login.sendCode(phone):
             print('我们向你的手机号发送了一个验证码，请输入')
             vcode = input(">> ")
-            if login.verifyCode(phone, vcode)[0]:
+            if login.verifyCode(phone,vcode)[0]:
                 print('登录成功！')
                 tk = login.verifyCode(phone, vcode)[1]
                 # 导入配置
@@ -22,6 +21,7 @@ def start(add=False):
                 print('检查你的验证码是否输入正确')
         else:
             print('可能出错了')
+        
     else:
         print('你当前可以选用的账号如下（输入数字选择）-1新增')
         userlist = os.listdir('./user/')
